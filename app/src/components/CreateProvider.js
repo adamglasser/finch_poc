@@ -49,17 +49,7 @@ export default function CreateProvider (){
 
     const handleButtonClick = () => {
         if (selectedProvider) {
-            const data = {
-                provider_id: selectedProvider.value,
-                products: ["company", "directory", "individual", "employment"],
-                employee_size: 10
-            };
-
-            axios.post('https://sandbox.tryfinch.com/api/sandbox/create', data, {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
+            axios.post(`http://localhost:8080/CreateProvider?provider_id=` + selectedProvider.value)
             .then(response => {
                 console.log('Response:', response.data);
             })
