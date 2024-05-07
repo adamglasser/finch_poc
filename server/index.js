@@ -52,7 +52,7 @@ app.post('/CreateProvider', async (req, res) => {
     }
 });
 
-console.log(req.accessToken)
+
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {

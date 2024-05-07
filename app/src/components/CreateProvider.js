@@ -5,6 +5,7 @@ import axios from 'axios';
 export default function CreateProvider (){
 
     const [selectedProvider, setSelectedProvider] = useState(null);
+    const [accessGranted, setAccessGranted] = useState(null)
 
     const providers = [
         {"providerName":"ADP Run","providerId":"adp_run"},
@@ -44,6 +45,7 @@ export default function CreateProvider (){
     }));
 
     const handleChange = selectedOption => {
+        setAccessGranted(false);
         setSelectedProvider(selectedOption);
     };
 
@@ -52,6 +54,8 @@ export default function CreateProvider (){
             axios.post(`http://localhost:8080/CreateProvider?provider_id=` + selectedProvider.value)
             .then(response => {
                 console.log('Response:', response.data);
+                setAccessGranted(true)
+                
             })
             .catch(error => {
                 console.error('Error:', error);
@@ -63,13 +67,16 @@ export default function CreateProvider (){
 
     return (
         <div>
+        <label for="selectProvider" class="block text-sm font-medium text-gray-900"> Select Provider: <span className='text-gray-600'> Current: {selectedProvider && selectedProvider.label || 'Provider Not Selected'} <br></br>Access Granted: {accessGranted ? '✅'  : '❌'}</span> </label> 
             <Select
+                id="selectProvider"
+                className="mt-1.5 w-full rounded-lg border-gray-300 text-gray-700 sm:text-sm"
                 value={selectedProvider}
                 onChange={handleChange}
                 options={options}
                 placeholder="Select a Provider"
             />
-            <button onClick={handleButtonClick}>Submit Request</button>
+            <button className='mt-5 inline-block rounded border border-indigo-600 bg-indigo-600 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500' onClick={handleButtonClick}>Create Provider</button>
         </div>
     );
 };
