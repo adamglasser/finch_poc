@@ -78,21 +78,7 @@ export default function CreateProvider() {
                     console.log('Response:', response.data);
                     setAccessGranted(true)
 
-                    // Function to get cookie by name
-                    function getCookie(name) {
-                        let cookieArray = document.cookie.split(';');
-                        for (let i = 0; i < cookieArray.length; i++) {
-                            let cookiePair = cookieArray[i].split('=');
-                            if (name === cookiePair[0].trim()) {
-                                return decodeURIComponent(cookiePair[1]);
-                            }
-                        }
-                        return null;
-                    }
-
-                    const accessToken = getCookie('access_token');
-                    console.log('Access Token:', accessToken);
-                    console.log(document.cookie)
+                    
                 })
                 .catch(error => {
                     console.error('Error:', error);

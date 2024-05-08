@@ -25,6 +25,17 @@ npm install
 
 ## Running the Server
 
+Before running the server you will want to create an ev variable for your JWT secrets that can be used when creating tokens you
+
+```shell
+export JWT_SECRET='your_secret_key'
+```
+To check the secret you set you can use
+
+```shell
+echo $JWT_SECRET
+```
+
 To start the server, use the command:
 
 ```shell
@@ -32,5 +43,6 @@ node index.js
 
 ```
 This will initiate the server on the default port defined in your `index.js`. Make sure the port is properly configured and not in use by another application.
+
 
 
