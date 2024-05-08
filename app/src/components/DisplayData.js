@@ -1,9 +1,9 @@
 const DisplayData = ({ data, depth = 0 }) => {
     const boldnessClasses = [
         'font-extrabold', // root level
-        'font-bold',      // first nested level
-        'font-semibold',  // second nested level
-        'font-normal'     // third nested level or deeper
+        'font-semibold',      // first nested level
+        'font-normal',  // second nested level
+        'font-light'     // third nested level or deeper
     ];
 
     const textClass = boldnessClasses[Math.min(depth, boldnessClasses.length - 1)];

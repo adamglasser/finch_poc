@@ -5,7 +5,7 @@ const axios = require('axios');
 const cookieParser = require('cookie-parser'); // Import cookie-parser for handling cookies
 
 app.use(cors({
-    origin: "http://localhost:3000", // Change this to match your client's domain
+    origin: "http://localhost:8080",
     credentials: true
 }));
 app.use(express.json());
@@ -43,7 +43,7 @@ app.post('/CreateProvider', async (req, res) => {
 
         res.cookie('access_token', access_token, {
             httpOnly: true, // The cookie cannot be accessed by client-side JS
-            secure: false,   // Only transmit cookie over HTTPS, false because we are in dev
+            secure: true,   // Only transmit cookie over HTTPS
             sameSite: 'None' // None to allow cross site
           });
         
@@ -69,8 +69,22 @@ app.get('/Company', async (req, res) => {
 
         res.send(resData);
     } catch (error) {
-        //console.error('Error making API call', error);
-        res.status(500).send('Failed to fetch company');
+        if (error.response) {
+            // The request was made and the server responded with a status code that falls out of the range of 2xx
+            console.log("Error Status:", error.response.status);
+            console.log("Error Data:", error.response.data);
+
+            // Send error details back to the client
+            res.status(error.response.status).send(error.response.data);
+        } else if (error.request) {
+            // The request was made but no response was received
+            console.log("Error Request:", error.request);
+            res.status(500).send({ message: "No response received from the API" });
+        } else {
+            // Something happened in setting up the request that triggered an error
+            console.log("Error Message:", error.message);
+            res.status(500).send({ message: error.message });
+        }
     }
 });
 

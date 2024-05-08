@@ -92,8 +92,8 @@ export default function CreateProvider() {
 
     return (
         <>
-            <div>
-                <label for="selectProvider" class="block text-sm font-medium text-gray-900"> Select Provider: <span className='text-gray-600'> Current: {selectedProvider && selectedProvider.label || 'Provider Not Selected'} <br></br>Access Granted: {accessGranted ? '✅' : '❌'}</span> </label>
+        <div>
+                <label for="selectProvider" className="block text-sm font-medium text-gray-900"> Select Provider: <span className='text-gray-600'> Current: {selectedProvider && selectedProvider.label || 'Provider Not Selected'} <br></br>Access Granted: {accessGranted ? '✅' : '❌'}</span> </label>
                 <Select
                     id="selectProvider"
                     className="mt-1.5 w-full rounded-lg border-gray-300 text-gray-700 sm:text-sm"
@@ -102,9 +102,11 @@ export default function CreateProvider() {
                     options={options}
                     placeholder="Select a Provider"
                 />
-                <button className='mt-5 inline-block rounded border border-indigo-600 bg-indigo-600 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500' onClick={handleButtonClick}>Create Provider</button>
+            <div className='row gap-3'>
+                <button className='my-5 rounded border border-indigo-600 bg-indigo-600 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500' onClick={handleButtonClick}>Create Provider</button>
+                <DisplayCompany selectedProvider={selectedProvider} accessGranted={accessGranted} />
             </div>
-            <DisplayCompany selectedProvider={selectedProvider && selectedProvider.label} />
+            </div>
         </>
     );
 };
