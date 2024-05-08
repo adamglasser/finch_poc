@@ -40,7 +40,7 @@ This starts the development server and opens the application in your default bro
 
 ## CSS
 
-To hot reload the Tailwind CSS enter a new terminal in the same directory and run
+To hot reload the Tailwind CSS enter a new terminal in the same directory (/app) and run
 
 ```shell
 npx tailwindcss -i ./src/input.css -o ./src/output.css --watch

@@ -13,8 +13,22 @@ const DisplayIndividual = ({ selectedIndividual, accessGranted,  setData}) => {
                 withCredentials: true
             })
             .then(response => {
-                console.log('Response:', response.data);
-                setData(response.data);
+                const transformedData = response.data.individual.responses.map(responseItem => {
+                    const individualData = responseItem.body;
+                    const individualEmployments = response.data.individual.employments.responses
+                        .filter(employment => employment.individual_id === individualData.id)
+                        .map(employment => employment.body);
+            
+                    return {
+                        individual: {
+                            id: individualData.id,
+                            individual_data: individualData,
+                            employments: individualEmployments
+                        }
+                    };
+                });
+            
+                setData(transformedData);
             })
             .catch(error => {
                 setData({})

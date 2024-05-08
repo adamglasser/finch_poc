@@ -44,7 +44,7 @@ const DisplayData = ({ setIndividuals, rootDataType, data, depth = 0 }) => {
                     // Base case for simple values
                     return (
                         <li key={key} className={`${textClass}`}>
-                            {key}: {String(value)}
+                            {key}: {value ? String(value) : null}
                         </li>
                     );
                 }
