@@ -21,6 +21,11 @@ app.use((req, res, next) => {
 });
 
 app.post('/CreateProvider', async (req, res) => {
+    let isSafari = req.headers['user-agent'].includes('Safari') && !req.headers['user-agent'].
+    includes('Chrome');
+
+    console.log('is safari',isSafari )
+    
     const { provider_id } = req.query;
     if (!provider_id) {
         return res.status(400).send('Provider ID is required');
@@ -43,7 +48,7 @@ app.post('/CreateProvider', async (req, res) => {
 
         res.cookie('access_token', access_token, {
             httpOnly: true, // The cookie cannot be accessed by client-side JS
-            secure: false,   // We are in dev, don't allow in prod
+            secure: !isSafari,   // We are in dev, don't allow in prod
             sameSite: 'None' // None to allow cross site
           });
         
