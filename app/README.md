@@ -36,6 +36,9 @@ To start the app, use the command:
 npm start
 
 ```
+This starts the development server and opens the application in your default browser. The app will reload if you make edits.
+
+## CSS
 
 To hot reload the Tailwind CSS enter a new terminal in the same directory and run
 
@@ -44,6 +47,4 @@ npx tailwindcss -i ./src/input.css -o ./src/output.css --watch
 
 ```
 
-
-Starts the development server and opens the application in your default browser. The app will reload if you make edits.
 
