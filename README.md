@@ -38,3 +38,30 @@ This is where the  **Backend** of the application is housed, which fetches data 
 
 [README](server/README.md)
 
+
+## Notes:
+
+For testing access token permissions you can user the CURLS below
+
+```
+# create provider
+curl --location 'https://sandbox.tryfinch.com/api/sandbox/create' \
+--header 'Content-Type: application/json' \
+--data '{
+    "provider_id": "gusto",
+    "products": ["company", "directory", "individual", "employment"],
+    "employee_size": 10
+}'
+
+# get payments by start/end date
+curl --location 'https://sandbox.tryfinch.com/api/employer/payment?start_date=2024-01-01&end_date=2024-02-01' \
+--header 'Authorization: Bearer {{token}}' \
+--header 'Content-Type: application/json' \
+--data ''
+
+# get specific statement
+curl --location 'https://sandbox.tryfinch.com/api/employer/pay-statement' \
+--header 'Authorization: Bearer {{token}} \
+--header 'Content-Type: application/json' \
+--data '{"requests":[{"payment_id":"some_id"}]}'
+```
