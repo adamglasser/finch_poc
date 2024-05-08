@@ -4,6 +4,8 @@ import axios from 'axios';
 import DisplayCompany from './DisplayCompany'
 import DisplayDirectory from './DisplayDirectory';
 import DisplayData from './DisplayData';
+import DisplayEmployment from './DisplayEmployment';
+import DisplayIndividual from './DisplayIndividual';
 
 
 export default function CreateProvider() {
@@ -109,9 +111,11 @@ export default function CreateProvider() {
                     placeholder="Select a Provider"
                 />
             <div className='row my-5 gap-2 flex'>
-                <button className='rounded border border-indigo-600 bg-indigo-600 px-6 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500' onClick={handleButtonClick}>Create Provider</button>
+                <button className='rounded border border-indigo-600 bg-indigo-600 px-3 py-3 text-xs font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500' onClick={handleButtonClick}>Create Provider</button>
                 <DisplayCompany setData={setData} selectedProvider={selectedProvider} accessGranted={accessGranted} />
                 <DisplayDirectory setData={setData} selectedProvider={selectedProvider} accessGranted={accessGranted} />
+                <DisplayIndividual setData={setData} selectedProvider={selectedProvider} accessGranted={accessGranted} />
+                <DisplayEmployment setData={setData} selectedProvider={selectedProvider} accessGranted={accessGranted} />
             </div>
             {data ? <DisplayData data={data} /> : <p>No data loaded.</p>}
             </div>

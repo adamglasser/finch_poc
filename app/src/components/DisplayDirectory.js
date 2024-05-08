@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import axios from 'axios';
 
 const DisplayDirectory = ({ selectedProvider, accessGranted,  setData}) => {
 
-    const buttonBaseClasses = "inline-block rounded border px-8 py-3 text-sm font-medium";
+    const buttonBaseClasses = "inline-block rounded border px-3 py-3 text-xs  font-medium";
     const enabledClasses = "border-cyan-600 bg-cyan-600 text-white hover:bg-cyan-700";
     const disabledClasses = "border-grey-600 bg-grey-600 text-dark";
 
