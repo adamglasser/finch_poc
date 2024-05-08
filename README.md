@@ -1,4 +1,4 @@
-# directory-read
+# Finch POC
 
 This repository contains two projects, each with their own README.
 
