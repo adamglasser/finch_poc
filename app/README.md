@@ -1,35 +1,22 @@
 # Finch POC
 
-Finch POC is a React application with a set of pre-configured dependencies useful for building robust user interfaces and interacting with the Finch APIs.
+The app is a React application with a set of pre-configured dependencies useful for building robust user interfaces and interacting with the Finch APIs.
+
 
 ## Prerequisites
 
-Before you begin, ensure you have Node.js installed on your machine. You can download and install Node.js from [Node.js official website](https://nodejs.org/).
+Make sure you have Node.js installed on your machine and have cloned the repository as described in the root project readme.
 
-This project also uses npm (Node Package Manager) to manage its dependencies.
+1. **Navigate to the project directory**
 
-## Installation
-
-To set up the project locally, follow these steps:
-
-1. **Clone the repository**
-
-If you have git installed, you can clone the repository using: 
-
-```shell
-git clone https://github.com/adamglasser/finch_poc.git
-```
-
-2. **Navigate to the project directory**
-
-After cloning the repository, enter the project directory:
+After you have cloned the repository you can enter the project directory:
 
 ```shell
 cd app
 ```
 
 
-3. **Install dependencies**
+2. **Install dependencies**
 
 Run the following command to install the necessary dependencies:
 
@@ -39,11 +26,15 @@ npm install
 
 This command reads the `package.json` file and installs all the dependencies listed under `dependencies` and `devDependencies`.
 
-## Available Scripts
+## Running the Server
 
-In the project directory, you can run several scripts:
+To start the app, use the command:
 
-- **`npm start`**
+```shell
+npm start
+
+```
+
 
 Starts the development server and opens the application in your default browser. The app will reload if you make edits.
 
