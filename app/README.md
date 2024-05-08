@@ -1,6 +1,6 @@
 # Finch POC
 
-The app is a React application with a set of pre-configured dependencies useful for building robust user interfaces and interacting with the Finch APIs.
+The app is a React application with a set of pre-configured dependencies useful for interacting with the Finch APIs.
 
 
 ## Prerequisites
