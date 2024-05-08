@@ -17,11 +17,11 @@ const DisplayIndividual = ({ selectedProvider, accessGranted,  setData}) => {
                 setData(response.data);
             })
             .catch(error => {
+                setData({})
                 //console.error('Error:', error);
                 if (error.response) {
                     console.log(error.response.status)
                     if (error.response.status == 501){
-                        setData({})
                         alert('This endpoint is not supported by your selected provider')
                     }
                 }

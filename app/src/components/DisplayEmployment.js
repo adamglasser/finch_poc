@@ -17,6 +17,7 @@ const DisplayEmployment = ({ selectedProvider, accessGranted,  setData}) => {
                 setData(response.data);
             })
             .catch(error => {
+                setData({})
                 //console.error('Error:', error);
                 if (error.response) {
                     console.log(error.response.status)

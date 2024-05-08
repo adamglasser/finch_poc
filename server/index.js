@@ -43,7 +43,7 @@ app.post('/CreateProvider', async (req, res) => {
 
         res.cookie('access_token', access_token, {
             httpOnly: true, // The cookie cannot be accessed by client-side JS
-            secure: true,   // Only transmit cookie over HTTPS
+            secure: false,   // We are in dev, don't allow in prod
             sameSite: 'None' // None to allow cross site
           });
         
@@ -56,6 +56,9 @@ app.post('/CreateProvider', async (req, res) => {
 });
 
 app.get('/Company', async (req, res) => {
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
     try {
         const token = req.cookies['access_token'];
         const response = await axios.get('https://sandbox.tryfinch.com/api/employer/company', {

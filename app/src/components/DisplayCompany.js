@@ -10,13 +10,17 @@ const DisplayCompany = ({ selectedProvider, accessGranted,  setData}) => {
     const fetchData = () => {
         if (selectedProvider && accessGranted) {
             axios.get('http://localhost:8080/Company', {
-                withCredentials: true
+                withCredentials: true,
+                params: {
+                    timestamp: new Date().getTime()
+                },
             })
             .then(response => {
                 console.log('Response:', response.data);
                 setData(response.data);
             })
             .catch(error => {
+                setData({})
                 //console.error('Error:', error);
                 if (error.response) {
                     console.log(error.response.status)

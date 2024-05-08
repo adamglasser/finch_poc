@@ -54,6 +54,7 @@ export default function CreateProvider() {
     const handleChange = selectedOption => {
         setAccessGranted(false);
         setSelectedProvider(selectedOption);
+        setData({})
     };
 
     const handleButtonClick = () => {
