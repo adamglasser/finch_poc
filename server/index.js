@@ -196,19 +196,23 @@ app.get('/Individual', async (req, res) => {
 });
 
 function handleError(error, res) {
-    if (error.response) {
+    try {
+    if (error.response && error.response.status) {
         // Server responded with a status code outside the range of 2xx
-        console.error("HTTP Status:", error.response.status);
-        console.error("HTTP Data:", error.response.data);
+        // console.error("HTTP Status:", error.response.status);
+        // console.error("HTTP Data:", error.response.data);
         res.status(error.response.status).send(error.response.data);
     } else if (error.request) {
         // No response received
-        console.error("Error Request:", error.request);
+        // #console.error("Error Request:", error.request);
         res.status(503).send({ message: "No response received from the API" });
     } else {
         // Error setting up the request
-        console.error("Error Message:", error.message);
+        // console.error("Error Message:", error.message);
         res.status(500).send({ message: error.message });
+    }
+    } catch (error) {
+        res.status(500).send();
     }
 }
 
