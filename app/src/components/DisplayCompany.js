@@ -1,16 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import DisplayData from './DisplayData';
+import axios from 'axios';
+
 
 
 const DisplayCompany = ({selectedProvider}) => {
     const [data, setData] = useState({});
 
 
-    const fetchData = async () => {
-        // const response = await fetch('your-data-source-url');
-        // const newData = await response.json();
-        setData({"test":"test2"});
+    const fetchData = () => {
+        if (selectedProvider) {
+            axios.get(`http://localhost:8080/Company`,{
+                withCredentials: true
+            })
+            .then(response => {
+                    console.log('Response:', response.data);
+                    setData(response.data)
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        } else {
+            alert('Please select a provider');
+        }
     };
+
 
     return (
         <div>
