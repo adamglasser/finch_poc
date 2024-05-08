@@ -7,6 +7,8 @@ The app is a React application with a set of pre-configured dependencies useful 
 
 Make sure you have Node.js installed on your machine and have cloned the repository as described in the root project readme.
 
+## Install Steps
+
 1. **Navigate to the project directory**
 
 After you have cloned the repository you can enter the project directory:
