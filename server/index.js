@@ -5,7 +5,7 @@ const axios = require('axios');
 const cookieParser = require('cookie-parser'); // Import cookie-parser for handling cookies
 
 app.use(cors({
-    origin: "http://localhost:8080",
+    origin: "http://localhost:3000",
     credentials: true
 }));
 app.use(express.json());

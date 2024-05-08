@@ -103,7 +103,7 @@ export default function CreateProvider() {
                     placeholder="Select a Provider"
                 />
             <div className='row gap-3'>
-                <button className='my-5 rounded border border-indigo-600 bg-indigo-600 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500' onClick={handleButtonClick}>Create Provider</button>
+                <button className='my-5 rounded border border-indigo-600 bg-indigo-600 px-6 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500' onClick={handleButtonClick}>Create Provider</button>
                 <DisplayCompany selectedProvider={selectedProvider} accessGranted={accessGranted} />
             </div>
             </div>
