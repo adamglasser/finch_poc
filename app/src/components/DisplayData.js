@@ -13,11 +13,11 @@ const DisplayData = ({ setIndividuals, rootDataType, data, depth = 0 }) => {
         if (data && data['individuals'] && data['individuals'].length > 0) {
             const arr = [];
             for (const indiv of data['individuals']) {
-                arr.push(JSON.stringify({'id':indiv.id, 'name': JSON.stringify(indiv.first_name + ' ' + indiv.last_name)}));
+                arr.push(JSON.stringify({'id':indiv.id, 'name': (indiv.first_name + ' ' + indiv.last_name)}));
             }
             setIndividuals(arr);
         }
-    }, [rootDataType]);
+    }, [rootDataType,data]);
 
     return (
         <ul style={{ paddingLeft: `${depth * 20}px`, listStyleType: 'none' }}>

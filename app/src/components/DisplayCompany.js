@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 
-const DisplayCompany = ({ selectedProvider, accessGranted,  setData, setRootDataType}) => {
+const DisplayCompany = ({ setSelectedIndividual, setIndividuals, selectedProvider, accessGranted,  setData, setRootDataType}) => {
 
     const buttonBaseClasses = "inline-block rounded border px-3 py-3 text-xs  font-medium";
     const enabledClasses = "border-green-600 bg-green-600 text-white hover:bg-green-700";
@@ -18,10 +18,14 @@ const DisplayCompany = ({ selectedProvider, accessGranted,  setData, setRootData
             })
             .then(response => {
                 console.log('Response:', response.data);
+                setIndividuals([])
+                setSelectedIndividual(null)
                 setData(response.data);
             })
             .catch(error => {
                 setData({})
+                setIndividuals([])
+                setSelectedIndividual(null)
                 //console.error('Error:', error);
                 if (error.response) {
                     console.log(error.response.status)

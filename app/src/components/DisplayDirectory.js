@@ -13,7 +13,6 @@ const DisplayDirectory = ({ selectedProvider, accessGranted,  setData, setRootDa
                 withCredentials: true
             })
             .then(response => {
-                console.log('Response:', response.data);
                 setData(response.data);
                 setRootDataType('Directory')
             })

@@ -59,6 +59,8 @@ export default function CreateProvider() {
         setAccessGranted(false);
         setSelectedProvider(selectedOption);
         setData({})
+        setSelectedIndividual({})
+        setIndividuals([])
     };
 
     const handleButtonClick = () => {
@@ -124,12 +126,12 @@ export default function CreateProvider() {
                 />
                 <div className='row my-5 gap-2 flex'>
                     <button className='rounded border border-indigo-600 bg-indigo-600 px-3 py-3 text-xs font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500' onClick={handleButtonClick}>Create Provider</button>
-                    <DisplayCompany setRootDataType={setRootDataType} setData={setData} selectedProvider={selectedProvider} accessGranted={accessGranted} />
+                    <DisplayCompany setSelectedIndividual={setSelectedIndividual} setIndividuals={setIndividuals} setRootDataType={setRootDataType} setData={setData} selectedProvider={selectedProvider} accessGranted={accessGranted} />
                     <DisplayDirectory setRootDataType={setRootDataType} setData={setData} selectedProvider={selectedProvider} accessGranted={accessGranted} />
-                    {/* <DisplayIndividual setData={setData} selectedProvider={selectedProvider} accessGranted={accessGranted} />
-                <DisplayEmployment setData={setData} selectedProvider={selectedProvider} accessGranted={accessGranted} /> */}
                 </div>
+                <div className='row my-5 gap-2 flex'>
                 <Select
+                    classNames={`w-10 grid block`}
                     id="individualSelect"
                     className="mt-1.5 w-full rounded-lg border-gray-300 text-gray-700 sm:text-sm"
                     value={selectedIndividual}
@@ -137,6 +139,8 @@ export default function CreateProvider() {
                     options={individualsOptions}
                     placeholder="Select an Individual"
                 />
+                <DisplayIndividual setData={setData} selectedIndividual={selectedIndividual} accessGranted={accessGranted} />
+                </div>
                 {data ? <DisplayData setIndividuals={setIndividuals} rootDataType={rootDataType} data={data} /> : <p>No data loaded.</p>}
             </div>
         </>

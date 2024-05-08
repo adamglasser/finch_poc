@@ -55,8 +55,7 @@ app.post('/CreateProvider', async (req, res) => {
         res.status(200).send({ company_id, payroll_provider_id, sandboxTime });
 
     } catch (error) {
-        console.error('Error making API call', error);
-        res.status(500).send('Failed to create provider');
+        handleError(error, res);
     }
 });
 
@@ -77,22 +76,7 @@ app.get('/Company', async (req, res) => {
 
         res.send(resData);
     } catch (error) {
-        if (error.response) {
-            // The request was made and the server responded with a status code that falls out of the range of 2xx
-            console.log("Error Status:", error.response.status);
-            console.log("Error Data:", error.response.data);
-
-            // Send error details back to the client
-            res.status(error.response.status).send(error.response.data);
-        } else if (error.request) {
-            // The request was made but no response was received
-            console.log("Error Request:", error.request);
-            res.status(500).send({ message: "No response received from the API" });
-        } else {
-            // Something happened in setting up the request that triggered an error
-            console.log("Error Message:", error.message);
-            res.status(500).send({ message: error.message });
-        }
+        handleError(error, res);
     }
 });
 
@@ -110,90 +94,68 @@ app.get('/Directory', async (req, res) => {
 
         res.send(resData);
     } catch (error) {
-        if (error.response) {
-            // The request was made and the server responded with a status code that falls out of the range of 2xx
-            console.log("Error Status:", error.response.status);
-            console.log("Error Data:", error.response.data);
-
-            // Send error details back to the client
-            res.status(error.response.status).send(error.response.data);
-        } else if (error.request) {
-            // The request was made but no response was received
-            console.log("Error Request:", error.request);
-            res.status(500).send({ message: "No response received from the API" });
-        } else {
-            // Something happened in setting up the request that triggered an error
-            console.log("Error Message:", error.message);
-            res.status(500).send({ message: error.message });
-        }
+        handleError(error, res);
     }
 });
 
 app.get('/Individual', async (req, res) => {
+    const { individualId } = req.query;
+
+    // Check for individualId in the request
+    if (!individualId) {
+        return res.status(400).send({ message: 'Individual ID is required' });
+    }
+
     try {
         const token = req.cookies['access_token'];
-        const response = await axios.get('https://sandbox.tryfinch.com/api/employer/individual', {
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            }
-        });
-
-        const resData = response.data;
-
-        res.send(resData);
-    } catch (error) {
-        if (error.response) {
-            // The request was made and the server responded with a status code that falls out of the range of 2xx
-            console.log("Error Status:", error.response.status);
-            console.log("Error Data:", error.response.data);
-
-            // Send error details back to the client
-            res.status(error.response.status).send(error.response.data);
-        } else if (error.request) {
-            // The request was made but no response was received
-            console.log("Error Request:", error.request);
-            res.status(500).send({ message: "No response received from the API" });
-        } else {
-            // Something happened in setting up the request that triggered an error
-            console.log("Error Message:", error.message);
-            res.status(500).send({ message: error.message });
+        if (!token) {
+            return res.status(401).send({ message: 'Authorization token is missing' });
         }
+
+        const headers = {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        };
+
+        // Fetch individual data
+        const individualData = JSON.stringify({ "requests": [{ "individual_id": individualId }] });
+        const individualResponse = await axios.post('https://sandbox.tryfinch.com/api/employer/individual', individualData, { headers });
+
+        const individual = individualResponse.data;
+
+        // Fetch employment data
+        try {
+            const employmentResponse = await axios.post('https://sandbox.tryfinch.com/api/employer/employment', individualData, { headers });
+            individual['employments'] = employmentResponse.data;
+        } catch (employmentError) {
+            console.error('Employment data fetch error:', employmentError);
+            individual['employments'] = {};
+        }
+
+        // Send final response with individual and employments data
+        res.send({ individual });
+    } catch (error) {
+        handleError(error, res);
     }
 });
 
-app.get('/Employment', async (req, res) => {
-    try {
-        const token = req.cookies['access_token'];
-        const response = await axios.get('https://sandbox.tryfinch.com/api/employer/employment', {
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            }
-        });
 
-        const resData = response.data;
-
-        res.send(resData);
-    } catch (error) {
-        if (error.response) {
-            // The request was made and the server responded with a status code that falls out of the range of 2xx
-            console.log("Error Status:", error.response.status);
-            console.log("Error Data:", error.response.data);
-
-            // Send error details back to the client
-            res.status(error.response.status).send(error.response.data);
-        } else if (error.request) {
-            // The request was made but no response was received
-            console.log("Error Request:", error.request);
-            res.status(500).send({ message: "No response received from the API" });
-        } else {
-            // Something happened in setting up the request that triggered an error
-            console.log("Error Message:", error.message);
-            res.status(500).send({ message: error.message });
-        }
+function handleError(error, res) {
+    if (error.response) {
+        // Server responded with a status code outside the range of 2xx
+        console.error("HTTP Status:", error.response.status);
+        console.error("HTTP Data:", error.response.data);
+        res.status(error.response.status).send(error.response.data);
+    } else if (error.request) {
+        // No response received
+        console.error("Error Request:", error.request);
+        res.status(503).send({ message: "No response received from the API" });
+    } else {
+        // Error setting up the request
+        console.error("Error Message:", error.message);
+        res.status(500).send({ message: error.message });
     }
-});
+}
 
 const PORT = 8080;
 app.listen(PORT, () => {
