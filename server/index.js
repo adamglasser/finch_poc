@@ -88,7 +88,38 @@ app.get('/Company', async (req, res) => {
     }
 });
 
+app.get('/Directory', async (req, res) => {
+    try {
+        const token = req.cookies['access_token'];
+        const response = await axios.get('https://sandbox.tryfinch.com/api/employer/directory', {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
 
+        const resData = response.data;
+
+        res.send(resData);
+    } catch (error) {
+        if (error.response) {
+            // The request was made and the server responded with a status code that falls out of the range of 2xx
+            console.log("Error Status:", error.response.status);
+            console.log("Error Data:", error.response.data);
+
+            // Send error details back to the client
+            res.status(error.response.status).send(error.response.data);
+        } else if (error.request) {
+            // The request was made but no response was received
+            console.log("Error Request:", error.request);
+            res.status(500).send({ message: "No response received from the API" });
+        } else {
+            // Something happened in setting up the request that triggered an error
+            console.log("Error Message:", error.message);
+            res.status(500).send({ message: error.message });
+        }
+    }
+});
 
 const PORT = 8080;
 app.listen(PORT, () => {

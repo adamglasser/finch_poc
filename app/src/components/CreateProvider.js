@@ -2,11 +2,15 @@ import React, { useState } from 'react';
 import Select from 'react-select';
 import axios from 'axios';
 import DisplayCompany from './DisplayCompany'
+import DisplayDirectory from './DisplayDirectory';
+import DisplayData from './DisplayData';
+
 
 export default function CreateProvider() {
 
     const [selectedProvider, setSelectedProvider] = useState(null);
     const [accessGranted, setAccessGranted] = useState(null)
+    const [data, setData] = useState({});
 
     const providers = [
         { "providerName": "ADP Run", "providerId": "adp_run" },
@@ -89,6 +93,8 @@ export default function CreateProvider() {
         }
     };
 
+    
+
 
     return (
         <>
@@ -102,10 +108,12 @@ export default function CreateProvider() {
                     options={options}
                     placeholder="Select a Provider"
                 />
-            <div className='row gap-3'>
-                <button className='my-5 rounded border border-indigo-600 bg-indigo-600 px-6 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500' onClick={handleButtonClick}>Create Provider</button>
-                <DisplayCompany selectedProvider={selectedProvider} accessGranted={accessGranted} />
+            <div className='row my-5 gap-2 flex'>
+                <button className='rounded border border-indigo-600 bg-indigo-600 px-6 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500' onClick={handleButtonClick}>Create Provider</button>
+                <DisplayCompany setData={setData} selectedProvider={selectedProvider} accessGranted={accessGranted} />
+                <DisplayDirectory setData={setData} selectedProvider={selectedProvider} accessGranted={accessGranted} />
             </div>
+            {data ? <DisplayData data={data} /> : <p>No data loaded.</p>}
             </div>
         </>
     );
