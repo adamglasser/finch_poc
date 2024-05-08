@@ -1,4 +1,5 @@
-const DisplayData = ({ data, depth = 0 }) => {
+import { useEffect } from "react";
+const DisplayData = ({ setIndividuals, rootDataType, data, depth = 0 }) => {
     const boldnessClasses = [
         'font-extrabold', // root level
         'font-semibold',  // first nested level
@@ -7,6 +8,16 @@ const DisplayData = ({ data, depth = 0 }) => {
     ];
 
     const textClass = boldnessClasses[Math.min(depth, boldnessClasses.length - 1)];
+
+    useEffect(() => {
+        if (data && data['individuals'] && data['individuals'].length > 0) {
+            const arr = [];
+            for (const indiv of data['individuals']) {
+                arr.push(JSON.stringify({'id':indiv.id, 'name': JSON.stringify(indiv.first_name + ' ' + indiv.last_name)}));
+            }
+            setIndividuals(arr);
+        }
+    }, [rootDataType]);
 
     return (
         <ul style={{ paddingLeft: `${depth * 20}px`, listStyleType: 'none' }}>

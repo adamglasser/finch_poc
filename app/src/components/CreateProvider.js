@@ -13,6 +13,10 @@ export default function CreateProvider() {
     const [selectedProvider, setSelectedProvider] = useState(null);
     const [accessGranted, setAccessGranted] = useState(null)
     const [data, setData] = useState({});
+    const [rootDataType, setRootDataType] = useState(null);
+    const [individuals, setIndividuals] = useState([]);
+    const [selectedIndividual, setSelectedIndividual] = useState(null);
+
 
     const providers = [
         { "providerName": "ADP Run", "providerId": "adp_run" },
@@ -68,40 +72,47 @@ export default function CreateProvider() {
                 },
                 withCredentials: true
             })
-            .then(response => {
-                console.log('Response:', response.data);
-                setAccessGranted(true)
+                .then(response => {
+                    console.log('Response:', response.data);
+                    setAccessGranted(true)
 
-            // Function to get cookie by name
-            function getCookie(name) {
-                let cookieArray = document.cookie.split(';');
-                for(let i = 0; i < cookieArray.length; i++) {
-                    let cookiePair = cookieArray[i].split('=');
-                    if(name === cookiePair[0].trim()) {
-                        return decodeURIComponent(cookiePair[1]);
+                    // Function to get cookie by name
+                    function getCookie(name) {
+                        let cookieArray = document.cookie.split(';');
+                        for (let i = 0; i < cookieArray.length; i++) {
+                            let cookiePair = cookieArray[i].split('=');
+                            if (name === cookiePair[0].trim()) {
+                                return decodeURIComponent(cookiePair[1]);
+                            }
+                        }
+                        return null;
                     }
-                }
-                return null;
-            }
 
-            const accessToken = getCookie('access_token');
-            console.log('Access Token:', accessToken);
-            console.log(document.cookie)
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
+                    const accessToken = getCookie('access_token');
+                    console.log('Access Token:', accessToken);
+                    console.log(document.cookie)
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
         } else {
             alert('Please select a provider');
         }
     };
 
-    
+    const individualsOptions = individuals.map(individual => ({
+        value: JSON.parse(individual)['id'],
+        label: JSON.parse(individual)['name']
+    }));
+
+    const handleIndividualSelected = selectedOption => {
+        setSelectedIndividual(selectedOption)
+    };
 
 
     return (
         <>
-        <div>
+            <div>
                 <label for="selectProvider" className="block text-sm font-medium text-gray-900"> Select Provider: <span className='text-gray-600'> Current: {selectedProvider && selectedProvider.label || 'Provider Not Selected'} <br></br>Access Granted: {accessGranted ? '✅' : '❌'}</span> </label>
                 <Select
                     id="selectProvider"
@@ -111,14 +122,22 @@ export default function CreateProvider() {
                     options={options}
                     placeholder="Select a Provider"
                 />
-            <div className='row my-5 gap-2 flex'>
-                <button className='rounded border border-indigo-600 bg-indigo-600 px-3 py-3 text-xs font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500' onClick={handleButtonClick}>Create Provider</button>
-                <DisplayCompany setData={setData} selectedProvider={selectedProvider} accessGranted={accessGranted} />
-                <DisplayDirectory setData={setData} selectedProvider={selectedProvider} accessGranted={accessGranted} />
-                <DisplayIndividual setData={setData} selectedProvider={selectedProvider} accessGranted={accessGranted} />
-                <DisplayEmployment setData={setData} selectedProvider={selectedProvider} accessGranted={accessGranted} />
-            </div>
-            {data ? <DisplayData data={data} /> : <p>No data loaded.</p>}
+                <div className='row my-5 gap-2 flex'>
+                    <button className='rounded border border-indigo-600 bg-indigo-600 px-3 py-3 text-xs font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500' onClick={handleButtonClick}>Create Provider</button>
+                    <DisplayCompany setRootDataType={setRootDataType} setData={setData} selectedProvider={selectedProvider} accessGranted={accessGranted} />
+                    <DisplayDirectory setRootDataType={setRootDataType} setData={setData} selectedProvider={selectedProvider} accessGranted={accessGranted} />
+                    {/* <DisplayIndividual setData={setData} selectedProvider={selectedProvider} accessGranted={accessGranted} />
+                <DisplayEmployment setData={setData} selectedProvider={selectedProvider} accessGranted={accessGranted} /> */}
+                </div>
+                <Select
+                    id="individualSelect"
+                    className="mt-1.5 w-full rounded-lg border-gray-300 text-gray-700 sm:text-sm"
+                    value={selectedIndividual}
+                    onChange={handleIndividualSelected}
+                    options={individualsOptions}
+                    placeholder="Select an Individual"
+                />
+                {data ? <DisplayData setIndividuals={setIndividuals} rootDataType={rootDataType} data={data} /> : <p>No data loaded.</p>}
             </div>
         </>
     );

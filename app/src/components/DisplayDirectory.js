@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 
-const DisplayDirectory = ({ selectedProvider, accessGranted,  setData}) => {
+const DisplayDirectory = ({ selectedProvider, accessGranted,  setData, setRootDataType}) => {
 
     const buttonBaseClasses = "inline-block rounded border px-3 py-3 text-xs  font-medium";
     const enabledClasses = "border-cyan-600 bg-cyan-600 text-white hover:bg-cyan-700";
@@ -15,6 +15,7 @@ const DisplayDirectory = ({ selectedProvider, accessGranted,  setData}) => {
             .then(response => {
                 console.log('Response:', response.data);
                 setData(response.data);
+                setRootDataType('Directory')
             })
             .catch(error => {
                 setData({})

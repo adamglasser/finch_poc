@@ -1,13 +1,14 @@
 import React from 'react';
 import axios from 'axios';
 
-const DisplayCompany = ({ selectedProvider, accessGranted,  setData}) => {
+const DisplayCompany = ({ selectedProvider, accessGranted,  setData, setRootDataType}) => {
 
     const buttonBaseClasses = "inline-block rounded border px-3 py-3 text-xs  font-medium";
     const enabledClasses = "border-green-600 bg-green-600 text-white hover:bg-green-700";
     const disabledClasses = "border-grey-600 bg-grey-600 text-dark";
 
     const fetchData = () => {
+        setRootDataType(null)
         if (selectedProvider && accessGranted) {
             axios.get('http://localhost:8080/Company', {
                 withCredentials: true,
