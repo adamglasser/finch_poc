@@ -77,11 +77,23 @@ export default function CreateProvider() {
                 .then(response => {
                     console.log('Response:', response.data);
                     setAccessGranted(true)
-
-                    
                 })
                 .catch(error => {
-                    console.error('Error:', error);
+                    setData({})
+                    setIndividuals([])
+                    setSelectedIndividual(null)
+                    if (error.response) {
+                        if (error.response.status == 501){
+                            setData({})
+                            alert('This endpoint is not supported by your selected provider')
+                        }
+                        else{
+                            alert('There was an error fetching data, please reload and try agin')
+                        }
+                    }
+                    else{
+                        alert('We ran into a server error fetching this data')
+                    }
                 });
         } else {
             alert('Please select a provider');
