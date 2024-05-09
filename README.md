@@ -64,4 +64,16 @@ curl --location 'https://sandbox.tryfinch.com/api/employer/pay-statement' \
 --header 'Authorization: Bearer {{token}} \
 --header 'Content-Type: application/json' \
 --data '{"requests":[{"payment_id":"some_id"}]}'
+
+
+# Potential XSS vulnerability
+curl --location 'https://sandbox.tryfinch.com/api/sandbox/create' \
+--header 'Content-Type: application/json' \
+--data '{
+    "provider_id": "gusto",
+    "products": ["company", "directory", "individual", "employment" ],
+    "employee_size": "10 <img src=x onerror=alert(0)>"
+}'
 ```
+
+
