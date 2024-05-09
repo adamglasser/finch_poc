@@ -25,7 +25,6 @@ app.use((req, res, next) => {
     if (!token) {
         console.log('Access token not available in cookies');
     }
-    console.log(token)
     next();
 });
 
@@ -77,10 +76,11 @@ app.post('/CreateProvider', async (req, res) => {
 app.get('/Company', async (req, res) => {
     try {
         const jwtToken = req.cookies['jwtToken'];
-        console.log('token is')
         if (!jwtToken) {
             return res.status(401).send({ message: 'Authorization token is missing' });
         }
+
+        let accessToken = null
 
         // Verify the JWT token
         jwt.verify(jwtToken, JWT_SECRET, async (err, decoded) => {
@@ -88,22 +88,43 @@ app.get('/Company', async (req, res) => {
                 return res.status(403).send({ message: 'Invalid token' });
             }
 
-            const access_token = accessTokens[jwtToken];
+            access_token = accessTokens[jwtToken];
             if (!access_token) {
                 return res.status(403).send({ message: 'Token has expired or is invalid' });
             }
-
-            // Use the stored sandbox API token here
-            const response = await axios.get('https://sandbox.tryfinch.com/api/employer/company', {
-                headers: {
-                    'Authorization': `Bearer ${access_token}`,
-                    'Content-Type': 'application/json'
-                }
-            });
-
-            res.send(response.data);
+        })
+            
+        
+        const response = await axios.get('https://sandbox.tryfinch.com/api/employer/company', {
+            headers: {
+                'Authorization': `Bearer ${access_token}`,
+                'Content-Type': 'application/json'
+            }
         });
 
+        res.send(response.data);
+
+    } catch (error) {
+        handleError(error, res);
+    }
+});
+
+app.get('/Company', async (req, res) => {
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
+    try {
+        const token = req.cookies['access_token'];
+        const response = await axios.get('https://sandbox.tryfinch.com/api/employer/company', {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        const resData = response.data;
+
+        res.send(resData);
     } catch (error) {
         handleError(error, res);
     }
@@ -204,11 +225,9 @@ function handleError(error, res) {
         res.status(error.response.status).send(error.response.data);
     } else if (error.request) {
         // No response received
-        // #console.error("Error Request:", error.request);
         res.status(503).send({ message: "No response received from the API" });
     } else {
         // Error setting up the request
-        // console.error("Error Message:", error.message);
         res.status(500).send({ message: error.message });
     }
     } catch (error) {

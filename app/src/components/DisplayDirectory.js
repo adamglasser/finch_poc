@@ -25,6 +25,9 @@ const DisplayDirectory = ({ selectedProvider, accessGranted,  setData, setRootDa
                         setData({})
                         alert('This endpoint is not supported by your selected provider')
                     }
+                    else{
+                        alert('There was an error fetching data, please reload and try agin')
+                    }
                 }
                 else{
                     console.error(error)

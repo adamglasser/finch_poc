@@ -38,6 +38,9 @@ const DisplayIndividual = ({ selectedIndividual, accessGranted,  setData}) => {
                     if (error.response.status == 501){
                         alert('This endpoint is not supported by your selected provider')
                     }
+                    else{
+                        alert('There was an error fetching data, please reload and try agin')
+                    }
                 }
                 else{
                     console.error(error)
