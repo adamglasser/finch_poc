@@ -14,7 +14,7 @@ Make sure you have Node.js installed on your machine and have cloned the reposit
 After you have cloned the repository you must enter the project directory:
 
 ```shell
-cd finch-poc/app
+cd finch_poc/app
 ```
 
 
