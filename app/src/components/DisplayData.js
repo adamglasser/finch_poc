@@ -23,14 +23,26 @@ const DisplayData = ({ setIndividuals, rootDataType, data, depth = 0 }) => {
         <ul style={{ paddingLeft: `${depth * 20}px`, listStyleType: 'none' }}>
             {Object.entries(data).map(([key, value]) => {
                 if (value && typeof value === 'object' && !Array.isArray(value)) {
-                    // Recursive case for objects
-                    return (
-                        <li key={key}>
-                            <div className={`${textClass}`}>{key}:</div>
-                            <DisplayData data={value} depth={depth + 1} />
-                        </li>
-                    );
-                } else if (Array.isArray(value)) {
+                    // Check if the key is a numerical index
+                    const isIndex = /^\d+$/.test(key);
+                    if (!isIndex) {
+                        // Recursive case for objects
+                        return (
+                            <li key={key}>
+                                <div className={`${textClass}`}>{key}:</div>
+                                <DisplayData data={value} depth={depth + 1} />
+                            </li>
+                        );
+                    }  else {
+                        // If it is an index, just render the value without the key
+                        return (
+                            <li key={key}>
+                                <DisplayData data={value} depth={depth + 1} />
+                            </li>
+                        );
+                    }
+                }
+                else if (Array.isArray(value)) {
                     // Recursive case for arrays
                     return (
                         <li key={key}>
@@ -44,7 +56,7 @@ const DisplayData = ({ setIndividuals, rootDataType, data, depth = 0 }) => {
                     // Base case for simple values
                     return (
                         <li key={key} className={`${textClass}`}>
-                            {key}: {String(value)}
+                            {key}: {value ? String(value) : 'not_provided'}
                         </li>
                     );
                 }

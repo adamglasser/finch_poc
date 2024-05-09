@@ -33,9 +33,11 @@ const DisplayCompany = ({ setSelectedIndividual, setIndividuals, selectedProvide
                         setData({})
                         alert('This endpoint is not supported by your selected provider')
                     }
+                    else{
+                        alert('There was an error fetching data, please reload and try agin')
+                    }
                 }
                 else{
-                    console.error(error)
                     alert('We ran into a server error fetching this data')
                 }
             });
