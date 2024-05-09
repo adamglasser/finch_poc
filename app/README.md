@@ -11,10 +11,10 @@ Make sure you have Node.js installed on your machine and have cloned the reposit
 
 1. **Navigate to the project directory**
 
-After you have cloned the repository you can enter the project directory:
+After you have cloned the repository you must enter the project directory:
 
 ```shell
-cd app
+cd finch-poc/app
 ```
 
 
