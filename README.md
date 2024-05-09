@@ -41,7 +41,7 @@ This is where the  **Backend** of the application is housed, which fetches data 
 
 ## Notes:
 
-For testing access token permissions you can user the CURLS below
+For testing access token permissions you can use the CURLS below
 
 ```
 # create provider
