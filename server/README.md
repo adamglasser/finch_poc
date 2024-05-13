@@ -1,6 +1,6 @@
 # Server
 
-This is a basic Node.js server setup using Express. It is configured to handle CORS and manage cookies, but due to security vulnerabilities with cookies it is only suitable for both development environments.
+This is a basic Node.js server setup using Express.
 
 ## Prerequisites
 
