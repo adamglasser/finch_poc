@@ -1,6 +1,6 @@
 # Server
 
-This is a basic Node.js server setup using Express.
+This is a basic Node.js server setup using Express. It communicates with a third party API (Finch) to fetch data and sends this information to the frontend (app) to be displayed to a user.
 
 ## Prerequisites
 
