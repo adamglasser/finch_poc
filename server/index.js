@@ -60,6 +60,7 @@ app.post('/CreateProvider', async (req, res) => {
         // Store access_token in the in-memory store
         accessTokens[jwtToken] = access_token;
 
+
         res.cookie('jwtToken', jwtToken, {
             httpOnly: true, // The cookie cannot be accessed by client-side JS
             secure: !isSafari,   // We are in dev, don't allow in prod
@@ -109,26 +110,7 @@ app.get('/Company', async (req, res) => {
     }
 });
 
-app.get('/Company', async (req, res) => {
-    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
-    res.setHeader('Pragma', 'no-cache');
-    res.setHeader('Expires', '0');
-    try {
-        const token = req.cookies['access_token'];
-        const response = await axios.get('https://sandbox.tryfinch.com/api/employer/company', {
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            }
-        });
 
-        const resData = response.data;
-
-        res.send(resData);
-    } catch (error) {
-        handleError(error, res);
-    }
-});
 
 app.get('/Directory', async (req, res) => {
     try {
